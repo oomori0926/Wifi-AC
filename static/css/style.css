@@ -1,0 +1,604 @@
+
+:root {
+    --color-bg-app          : #f4f7fb;
+    --color-bg-sidebar      : #ffffff;
+    --color-bg-surface      : #ffffff;
+    --color-bg-input        : #f8fbff;
+    --color-bg-accent-soft  : #eef8ff;
+    --color-text-primary    : #1f2937;
+    --color-text-muted      : #64748b;
+    --color-border-default  : #dbe5ef;
+    --color-border-strong   : #d6e2ee;
+    --color-accent          : #0ea5e9;
+    --color-accent-strong   : #0284c7;
+}
+
+* {
+    margin                  : 0;
+    padding                 : 0;
+    box-sizing              : border-box;
+}
+
+body {
+    line-height             : 1.6;
+    min-height              : 100vh;
+    position                : relative;
+    overflow-x              : hidden;
+    font-family             : 'Noto Sans JP', 'Manrope', sans-serif;
+    color                   : var(--color-text-primary);
+    background              : radial-gradient(circle at 10% 10%, #eef4ff 0%, #f8fafc 45%, var(--color-bg-app) 100%);
+}
+
+body::before {
+    top                     : -120px;
+    left                    : -120px;
+    width                   : 360px;
+    height                  : 360px;
+    border-radius           : 50%;
+    content                 : '';
+    position                : fixed;
+    pointer-events          : none;
+    background              : radial-gradient(circle, rgba(56, 189, 248, 0.16) 0%, rgba(56, 189, 248, 0) 72%);
+}
+
+body::after {
+    right                   : -140px;
+    bottom                  : -200px;
+    width                   : 420px;
+    height                  : 420px;
+    border-radius           : 50%;
+    content                 : '';
+    position                : fixed;
+    pointer-events          : none;
+    background              : radial-gradient(circle, rgba(14, 165, 233, 0.18) 0%, rgba(14, 165, 233, 0) 70%);
+}
+
+
+.container {
+    height                  : 100vh;
+    max-width               : 100%;
+    min-width: 750px;
+    min-height: 700px;
+    display                 : flex;
+    animation               : fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity          : 0; }
+    to   { opacity          : 1; }
+}
+
+
+/* サイドバー */
+.sidebar {
+    gap                     : 18px;
+    width                   : 360px;
+    padding                 : 26px 24px;
+    display                 : flex;
+    overflow-y              : auto;
+    flex-direction          : column;
+    box-shadow              : 8px 0 30px rgba(15, 23, 42, 0.08);
+    border-right            : 1px solid var(--color-border-default);
+    background              : linear-gradient(165deg, var(--color-bg-sidebar) 0%, #f8fbff 100%);
+}
+
+.sidebar-header {
+    margin-bottom           : 8px;
+    padding-bottom          : 12px;
+    text-align              : center;
+    border-bottom           : 1px solid var(--color-border-default);
+}
+
+.app-logo {
+    font-size               : 1.8rem;
+    margin-bottom           : 8px;
+    display                 : inline-block;
+    filter                  : drop-shadow(0 8px 14px rgba(56, 189, 248, 0.22));
+    animation               : steam 3s ease-in-out infinite;
+}
+
+@keyframes steam {
+    0%, 100% { transform    : translateY(0px);  }
+    50%      { transform    : translateY(-5px); }
+}
+
+.sidebar-header h1 {
+    font-size               : 1.25rem;
+    font-weight             : 800;
+    letter-spacing          : 0.4px;
+    margin-bottom           : 3px;
+    font-family             : 'Manrope', 'Noto Sans JP', sans-serif;
+    color                   : var(--color-text-primary);
+}
+
+.sidebar-header p {
+    font-size               : 0.78rem;
+    font-weight             : 600;
+    letter-spacing          : 0.4px;
+    color                   : var(--color-text-muted);
+}
+
+
+/* Wi-Fi情報 */
+.form-section {
+    padding                 : 16px;
+    border-radius           : 14px;
+    border                  : 1px solid #e2e8f0;
+    box-shadow              : 0 10px 24px rgba(15, 23, 42, 0.06);
+    background              : var(--color-bg-surface);
+}
+
+.form-section h2 {
+    gap                     : 10px;
+    font-size               : 0.95rem;
+    font-weight             : 700;
+    letter-spacing          : 0.3px;
+    margin-bottom           : 12px;
+    padding-bottom          : 10px;
+    display                 : flex;
+    align-items             : center;
+    font-family             : 'Manrope', 'Noto Sans JP', sans-serif;
+    border-bottom           : 1px solid #e5edf6;
+    color                   : var(--color-text-primary);
+}
+
+.icon {
+    width                   : 20px;
+    height                  : 20px;
+    color                   : var(--color-accent);
+}
+
+.form-group {
+    margin-bottom           : 12px;
+}
+
+label {
+    font-size               : 0.82rem;
+    font-weight             : 700;
+    letter-spacing          : 0.8px;
+    margin-bottom           : 8px;
+    display                 : block;
+    text-transform          : uppercase;
+    color                   : var(--color-text-muted);
+}
+
+input,
+select {
+    width                   : 100%;
+    padding                 : 9px 12px;
+    border-radius           : 10px;
+    font-size               : 0.9rem;
+    font-weight             : 500;
+    font-family             : 'Noto Sans JP', 'Manrope', sans-serif;
+    border                  : 1px solid var(--color-border-strong);
+    color                   : var(--color-text-primary);
+    background              : var(--color-bg-input);
+    transition              : all 0.3s ease;
+}
+
+input:focus,
+select:focus {
+    outline                 : none;
+    border-color            : var(--color-accent);
+    box-shadow              : 0 0 0 3px rgba(14, 165, 233, 0.14);
+    background              : var(--color-bg-surface);
+}
+
+input::placeholder {
+    opacity                 : 0.6;
+    color                   : var(--color-text-muted);
+}
+
+
+.button-group {
+    gap                     : 10px;
+    margin-top              : 12px;
+    display                 : flex;
+}
+
+button {
+    flex                    : 1;
+    padding                 : 10px 14px;
+    font-size               : 0.82rem;
+    font-weight             : 700;
+    letter-spacing          : 0.9px;
+    border-radius           : 12px;
+    border                  : none;
+    cursor                  : pointer;
+    text-transform          : uppercase;
+    font-family             : 'Manrope', 'Noto Sans JP', sans-serif;
+    box-shadow              : 0 10px 18px rgba(2, 132, 199, 0.28);
+    color                   : var(--color-bg-surface);
+    background              : linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-strong) 100%);
+    transition              : all 0.3s ease;
+}
+
+button:hover {
+    transform               : translateY(-3px);
+    box-shadow              : 0 14px 26px rgba(2, 132, 199, 0.34);
+}
+
+button:active {
+    transform               : translateY(-1px);
+}
+
+button.secondary {
+    box-shadow              : none;
+    border                  : 1px solid #bed4e8;
+    color                   : #2563eb;
+    background              : var(--color-bg-surface);
+}
+
+button.secondary:hover {
+    color                   : #1d4ed8;
+    background              : #eff6ff;
+}
+
+
+/* 保存済みWi-Fi */
+.saved-wifi h2 {
+    font-size               : 0.92rem;
+    font-weight             : 700;
+    letter-spacing          : 0.3px;
+    margin-bottom           : 16px;
+    padding-bottom          : 8px;
+    font-family             : 'Manrope', 'Noto Sans JP', sans-serif;
+    border-bottom           : 1px solid var(--color-border-default);
+    color                   : var(--color-text-primary);
+}
+
+.wifi-list {
+    gap                     : 12px;
+    display                 : flex;
+    flex-direction          : column;
+}
+
+.wifi-item {
+    padding                 : 10px 12px;
+    border-radius           : 12px;
+    cursor                  : pointer;
+    display                 : flex;
+    align-items             : center;
+    justify-content         : space-between;
+    border                  : 1px solid var(--color-border-default);
+    background              : var(--color-bg-surface);
+    transition              : all 0.3s ease;
+}
+
+.wifi-item:hover {
+    border-color            : var(--color-accent);
+    box-shadow              : 0 8px 16px rgba(15, 23, 42, 0.08);
+    background              : #f6fbff;
+    transform               : translateX(4px);
+}
+
+.wifi-info h3 {
+    font-size               : 0.9rem;
+    font-weight             : 700;
+    margin-bottom           : 2px;
+    color                   : var(--color-text-primary);
+}
+
+.wifi-info p {
+    font-size               : 0.76rem;
+    font-weight             : 500;
+    color                   : var(--color-text-muted);
+}
+
+.wifi-info-group {
+    gap                     : 8px;
+    display                 : flex;
+}
+
+.wifi-info-button {
+    padding                 : 6px 10px;
+    font-size               : 0.76rem;
+    font-weight             : 600;
+    border-radius           : 8px;
+    cursor                  : pointer;
+    background              : transparent;
+    border                  : 1px solid #d2e1ef;
+    color                   : var(--color-text-muted);
+    transition              : all 0.3s ease;
+}
+
+.wifi-info-button:hover {
+    border-color            : var(--color-accent);
+    color                   : #0369a1;
+    background              : var(--color-bg-accent-soft);
+}
+
+.wifi-info-button.delete:hover {
+    border-color            : #c17a4a;
+    color                   : #8b4423;
+    background              : #fde5d4;
+}
+
+
+/* メイン画面 */
+.main-display {
+    flex                    : 1;
+    padding                 : 28px;
+    display                 : flex;
+    position                : relative;
+    overflow                : hidden;
+    align-items             : center;
+    justify-content         : center;
+    background              : linear-gradient(140deg, #f6faff 0%, #f1f6fb 55%, #eef4ff 100%);
+}
+
+.app-stain {
+    opacity                 : 0.7;
+    border-radius           : 50%;
+    position                : absolute;
+}
+
+.app-stain-1 {
+    top                     : -100px;
+    right                   : -100px;
+    width                   : 300px;
+    height                  : 300px;
+    background              : radial-gradient(circle, rgba(56, 189, 248, 0.16) 0%, transparent 70%);
+}
+
+.app-stain-2 {
+    left                    : -150px;
+    bottom                  : -150px;
+    width                   : 400px;
+    height                  : 400px;
+    background              : radial-gradient(circle, rgba(59, 130, 246, 0.14) 0%, transparent 70%);
+}
+
+.decoration-top,
+.decoration-bottom {
+    left                    : 50%;
+    opacity                 : 0.8;
+    font-size               : 0.8rem;
+    font-weight             : 700;
+    letter-spacing          : 4px;
+    position                : absolute;
+    color                   : #94a3b8;
+    transform               : translateX(-50%);
+}
+
+.decoration-top {
+    top                     : 30px;
+}
+
+.decoration-bottom {
+    bottom                  : 30px;
+}
+
+
+#qrcode-container {
+    width                   : 100%;
+    height                  : 100%;
+    z-index                 : 1;
+    display                 : flex;
+    align-items             : center;
+    justify-content         : center;
+    flex-direction          : column;
+}
+
+.empty-state {
+    text-align              : center;
+    color                   : var(--color-text-muted);
+}
+
+.empty-state svg {
+    width                   : 100px;
+    height                  : 100px;
+    opacity                 : 0.15;
+    margin-bottom           : 14px;
+    color                   : var(--color-accent);
+}
+
+.empty-state p {
+    font-size               : 1rem;
+    font-weight             : 500;
+    line-height             : 1.8;
+}
+
+
+#qr-display {
+    width                   : 100%;
+    display                 : flex;
+    text-align              : center;
+    align-items             : center;
+    justify-content         : center;
+    flex-direction          : column;
+}
+
+.qr-content {
+    text-align              : center;
+    animation               : fadeInDown 1s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity             : 0;
+        transform           : translateY(-40px);
+    }
+    to {
+        opacity             : 1;
+        transform           : translateY(0);
+    }
+}
+
+.qr-title {
+    font-size               : 1.75rem;
+    font-weight             : 800;
+    line-height             : 1.15;
+    letter-spacing          : 0.8px;
+    margin-bottom           : 0;
+    font-family             : 'Manrope', 'Noto Sans JP', sans-serif;
+    text-shadow             : 0 4px 14px rgba(15, 23, 42, 0.08);
+    color                   : var(--color-text-primary);
+}
+
+.wifi-name-display {
+    font-size               : 1.2rem;
+    font-weight             : 700;
+    margin-top              : 15px;
+    margin-bottom           : 0;
+    font-family             : 'Manrope', 'Noto Sans JP', sans-serif;
+    color                   : var(--color-accent);
+}
+
+#qrcode {
+    z-index                 : 1;
+    margin                  : 22px auto;
+    padding                 : 20px;
+    border-radius           : 18px;
+    border                  : 1px solid #d8e4f0;
+    box-shadow              : 0 20px 50px rgba(15, 23, 42, 0.16);
+    background              : var(--color-bg-surface);
+    transition              : transform 0.5s ease;
+    animation               : fadeInUp 1.2s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity             : 0;
+        transform           : translateY(40px);
+    }
+    to {
+        opacity             : 1;
+        transform           : translateY(0);
+    }
+}
+
+#qrcode:hover {
+    transform               : scale(1.05) rotate(1deg);
+}
+
+#qrcode canvas,
+#qrcode img {
+    border-radius           : 12px;
+}
+
+.qr-actions {
+    width                   : 300px;
+    margin-top              : 16px;
+}
+
+.qr-actions .button-group {
+    margin-top              : 0;
+}
+
+
+/* 通知設定 */
+.notification {
+    z-index                 : 1000;
+    top                     : 30px;
+    right                   : 30px;
+    padding                 : 18px 28px;
+    font-weight             : 600;
+    border-radius           : 15px;
+    position                : fixed;
+    border                  : 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow              : 0 8px 30px rgba(2, 132, 199, 0.34);
+    color                   : var(--color-bg-surface);
+    background              : linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-strong) 100%);
+    animation               : slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity             : 0;
+        transform           : translateX(400px);
+    }
+    to {
+        opacity             : 1;
+        transform           : translateX(0);
+    }
+}
+
+
+/* 印刷設定 */
+.print-section {
+    display                 : none;
+}
+
+.print-content {
+    padding                 : 60px 40px;
+    text-align              : center;
+}
+
+.print-qr-title {
+    font-size               : 3rem;
+    margin-bottom           : 0;
+    font-family             : 'Manrope', 'Noto Sans JP', sans-serif;
+    color                   : var(--color-text-primary);
+}
+
+.print-wifi-name-display {
+    font-size               : 2rem;
+    font-weight             : 700;
+    margin-top              : 15px;
+    margin-bottom           : 35px;
+    font-family             : 'Manrope', 'Noto Sans JP', sans-serif;
+    color                   : var(--color-accent);
+}
+
+.print-message {
+    font-size               : 1.2rem;
+    margin-top              : 50px;
+    color                   : var(--color-text-muted);
+}
+
+#print-qrcode {
+    margin                  : 0 auto 24px;
+    display                 : flex;
+    align-items             : center;
+    justify-content         : center;
+}
+
+#print-qrcode img {
+    width                   : 280px;
+    height                  : 280px;
+    padding                 : 8px;
+    border-radius           : 12px;
+    border                  : 1px solid #d1d5db;
+    background              : #ffffff;
+}
+
+@media print {
+    body {
+        color               : var(--color-text-primary);
+        background          : #ffffff;
+    }
+
+    body::before,
+    body::after,
+    .app-stain {
+        display             : none;
+    }
+
+    .container {
+        height              : auto;
+        display             : block;
+    }
+
+    .sidebar,
+    .qr-actions,
+    .empty-state,
+    .decoration-top,
+    .decoration-bottom,
+    .notification,
+    .main-display {
+        display             : none !important;
+    }
+
+    .print-section {
+        height              : 100vh;
+        display             : flex !important;
+        align-items         : center;
+        justify-content     : center;
+        padding             : 0;
+    }
+
+    .print-content {
+        padding             : 60px 40px;
+    }
+}

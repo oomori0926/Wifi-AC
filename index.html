@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wi-Fi Access Console</title>
+    <link rel="icon" href="/static/image/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="app-logo">◉</div>
+                <h1>Wi-Fi Access Console</h1>
+                <p>QR Provisioning Panel</p>
+            </div>
+            <!-- Wi-Fi情報 -->
+            <div class="form-section">
+                <h2>
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    Wi-Fi情報
+                </h2>
+                <form id="wifi-form">
+                    <div class="form-group">
+                        <label for="ssid">ネットワーク名（SSID）</label>
+                        <input type="text" id="ssid" placeholder="例：Guest_WiFi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">パスワード</label>
+                        <input type="text" id="password" placeholder="Wi-Fiパスワードを入力" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="security">セキュリティタイプ</label>
+                        <select id="security">
+                            <option value="WPA">WPA/WPA2</option>
+                            <option value="WEP">WEP</option>
+                            <option value="nopass">なし（オープン）</option>
+                        </select>
+                    </div>
+                    <div class="button-group">
+                        <button type="submit">生成</button>
+                        <button type="button" class="secondary" onclick="saveWiFi()">保存</button>
+                    </div>
+                </form>
+            </div>
+            <!-- 保存済エリア -->
+            <div class="saved-wifi">
+                <h2>💾 保存済みWi-Fi</h2>
+                <div class="wifi-list" id="saved-list"></div>
+            </div>
+        </div>
+
+        <!-- メイン画面 -->
+        <div class="main-display">
+            <div class="app-stain app-stain-1"></div>
+            <div class="app-stain app-stain-2"></div>
+            <div class="decoration-top">SYSTEM READY</div>
+            <div class="decoration-bottom">SCAN TO CONNECT</div>
+            <!-- QRコード画面 -->
+            <div id="qrcode-container">
+                <div class="empty-state">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
+                    </svg>
+                    <p>サイドバーからWi-Fi情報を入力して<br>QRコードを生成してください</p>
+                </div>
+                <div id="qr-display" style="display: none;">
+                    <div class="qr-content">
+                        <div class="qr-title">📶 Wi-Fi接続用QRコード</div>
+                        <div class="wifi-name-display" id="display-ssid"></div>
+                    </div>
+                    <div id="qrcode"></div>
+                    <div class="qr-actions">
+                        <div class="button-group">
+                            <button type="button" onclick="downloadQRCode()">ダウンロード</button>
+                            <button type="button" class="secondary" onclick="window.print()">印刷</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 印刷画面 -->
+        <div class="print-section">
+            <div class="print-content">
+                <h1 class="print-qr-title">📶 Wi-Fi接続用QRコード</h1>
+                <h2 class="print-wifi-name-display" id="print-ssid"></h2>
+                <div id="print-qrcode"></div>
+                <p class="print-message">このQRコードを読み取って接続してください</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="static/js/index.js"></script>
+</body>
+</html>
+
