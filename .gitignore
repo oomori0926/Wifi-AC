@@ -1,0 +1,10 @@
+__pycache__
+bin_*
+
+*.venv
+*.exe
+*.db
+*.txt
+*.bat
+
+image
