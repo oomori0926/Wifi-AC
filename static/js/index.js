@@ -3,6 +3,45 @@ let currentQRCode = null;
 let currentWiFiData = null;
 
 
+// レスポンシブ時の表示処理
+function updateFormToggleLabel(isExpanded) {
+    const formToggle = document.getElementById('form-toggle');
+    if (!formToggle) return;
+    formToggle.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+    const label = isExpanded ? 'Wi-Fi情報を隠す' : 'Wi-Fi情報を表示';
+    formToggle.setAttribute('aria-label', label);
+    formToggle.setAttribute('title', label);
+}
+
+
+// レスポンシブ時の開閉処理
+function setupMobileFormToggle() {
+    const formSection = document.querySelector('.form-section');
+    const formToggle = document.getElementById('form-toggle');
+    if (!formSection || !formToggle) return;
+
+    const mobileMedia = window.matchMedia('(max-width: 960px)');
+    const syncFormState = () => {
+        if (mobileMedia.matches) {
+            if (!formSection.classList.contains('is-collapsed')) {
+                formSection.classList.add('is-collapsed');
+            }
+            updateFormToggleLabel(false);
+            return;
+        }
+        formSection.classList.remove('is-collapsed');
+        updateFormToggleLabel(true);
+    };
+    formToggle.addEventListener('click', () => {
+        if (!mobileMedia.matches) return;
+        const isCollapsed = formSection.classList.toggle('is-collapsed');
+        updateFormToggleLabel(!isCollapsed);
+    });
+    mobileMedia.addEventListener('change', syncFormState);
+    syncFormState();
+}
+
+
 // フォーム送信時の処理
 document.getElementById('wifi-form').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -178,4 +217,7 @@ function showNotification(message, type = 'success') {
 window.addEventListener('beforeprint', syncPrintQRCode);
 
 // ページ読み込み時に保存済みWi-Fiを表示
-window.addEventListener('DOMContentLoaded', loadSavedWiFis);
+window.addEventListener('DOMContentLoaded', () => {
+    loadSavedWiFis();
+    setupMobileFormToggle();
+});
